@@ -16,3 +16,10 @@ def validate_award_and_related_habit(attrs, fields):
         raise serializers.ValidationError(
             f"Можно заполнить только одно из полей: {', '.join(fields)}."
         )
+
+
+def validate_execution_time(value):
+    """Валидатор времени выполнения"""
+
+    if value not in range(121):
+        raise serializers.ValidationError("Время выполнения должно быть не больше 120 секунд")
