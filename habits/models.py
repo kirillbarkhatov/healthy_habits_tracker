@@ -7,7 +7,7 @@ from config.settings import AUTH_USER_MODEL
 class Habit(models.Model):
     """Модель привычки"""
 
-    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Пользователь")
+    user = models.ForeignKey(AUTH_USER_MODEL, null=True, blank=True, on_delete=models.CASCADE, verbose_name="Пользователь")
     location = models.CharField(max_length=50, default="Где угодно", verbose_name="Место")
     time = models.TimeField(verbose_name="Время")
     action = models.CharField(max_length=50, verbose_name="Действие")

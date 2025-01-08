@@ -9,6 +9,9 @@ class HabitCreateAPIView(generics.CreateAPIView):
 
     serializer_class = HabitSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 class HabitUpdateAPIView(generics.UpdateAPIView):
     """Редактирование привычки"""
