@@ -1,10 +1,17 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
-
-# Create your models here.
+from django.db import models
 
 
 class User(AbstractUser):
     """Моель кастомного пользователя"""
 
-    pass
+    username = None
+
+    email = models.EmailField(unique=True, verbose_name="Почта")
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
+
+    class Meta:
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
