@@ -1,5 +1,7 @@
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
+from users.permissions import IsOwner
 from .models import Habit
 from .paginators import FiveItemsPaginator
 from .serializers import HabitSerializer
@@ -9,6 +11,7 @@ class HabitCreateAPIView(generics.CreateAPIView):
     """Создание привычки"""
 
     serializer_class = HabitSerializer
+    permission_classes = [IsAuthenticated, ]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -19,6 +22,7 @@ class HabitUpdateAPIView(generics.UpdateAPIView):
 
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
+    permission_classes = [IsAuthenticated, IsOwner]
 
 
 class HabitDestroyAPIView(generics.DestroyAPIView):
@@ -26,6 +30,7 @@ class HabitDestroyAPIView(generics.DestroyAPIView):
 
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
+    permission_classes = [IsAuthenticated, IsOwner]
 
 
 class HabitRetrieveAPIView(generics.RetrieveAPIView):
@@ -33,11 +38,18 @@ class HabitRetrieveAPIView(generics.RetrieveAPIView):
 
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
+    permission_classes = [IsAuthenticated, IsOwner]
 
 
 class HabitListAPIView(generics.ListAPIView):
     """Получение списка привычек"""
 
     serializer_class = HabitSerializer
-    queryset = Habit.objects.all()
     pagination_class = FiveItemsPaginator
+    permission_classes = [IsAuthenticated, IsOwner]
+
+    def get_queryset(self):
+        """Фильтруем набор данных в зависимости от пользователя"""
+
+        user = self.request.user
+        return Habit.objects.filter(user=user)
