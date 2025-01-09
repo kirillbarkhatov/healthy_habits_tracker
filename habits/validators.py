@@ -23,3 +23,13 @@ def validate_execution_time(value):
 
     if value not in range(121):
         raise serializers.ValidationError("Время выполнения должно быть не больше 120 секунд")
+
+
+def validate_related_habit(attrs, field_name='related_habit'):
+    """Валидатор - в связанные привычки могут попадать только привычки с признаком приятной привычки"""
+
+    related_habit = attrs.get(field_name)
+    if related_habit and not related_habit.is_pleasant_habit:
+        raise serializers.ValidationError(
+            {field_name: "Связанная привычка должна быть отмечена как приятная."}
+        )
