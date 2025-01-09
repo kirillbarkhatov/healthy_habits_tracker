@@ -15,4 +15,5 @@ urlpatterns = [
     path(
         "habit/<int:pk>/delete", views.HabitDestroyAPIView.as_view(), name="habit_delete"
     ),
+    path("habit/public/", views.HabitPublicListAPIView.as_view(), name="habit_public_list"),
 ]

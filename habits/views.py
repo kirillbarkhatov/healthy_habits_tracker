@@ -53,3 +53,16 @@ class HabitListAPIView(generics.ListAPIView):
 
         user = self.request.user
         return Habit.objects.filter(user=user)
+
+
+class HabitPublicListAPIView(generics.ListAPIView):
+    """Получение списка публичных привычек"""
+
+    serializer_class = HabitSerializer
+    pagination_class = FiveItemsPaginator
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        """Фильтруем набор данных в зависимости от пользователя"""
+
+        return Habit.objects.filter(is_public=True)
