@@ -1,6 +1,7 @@
 from rest_framework import generics
 
 from .models import Habit
+from .paginators import FiveItemsPaginator
 from .serializers import HabitSerializer
 
 
@@ -39,3 +40,4 @@ class HabitListAPIView(generics.ListAPIView):
 
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
+    pagination_class = FiveItemsPaginator
