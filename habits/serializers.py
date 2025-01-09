@@ -1,7 +1,8 @@
 from rest_framework import serializers, validators
 
 from .models import Habit
-from .validators import validate_award_and_related_habit, validate_execution_time, validate_related_habit
+from .validators import validate_award_and_related_habit, validate_execution_time, validate_related_habit, \
+    validate_pleasant_habit
 
 
 class HabitSerializer(serializers.ModelSerializer):
@@ -11,11 +12,16 @@ class HabitSerializer(serializers.ModelSerializer):
 
     # Подключаем валидатор
     def validate(self, attrs):
-        # Проверяем связанную привычку
-        validate_related_habit(attrs, field_name='related_habit')
 
         # Проверяем, что награда и связанная привычка не указаны одновременно
         validate_award_and_related_habit(attrs, fields=['related_habit', 'award'])
+
+        # Проверяем связанную привычку
+        validate_related_habit(attrs, field_name='related_habit')
+
+        # Проверяем приятную привычку
+        validate_pleasant_habit(attrs)
+
         return attrs
 
     class Meta:

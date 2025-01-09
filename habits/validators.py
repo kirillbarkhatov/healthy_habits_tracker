@@ -33,3 +33,16 @@ def validate_related_habit(attrs, field_name='related_habit'):
         raise serializers.ValidationError(
             {field_name: "Связанная привычка должна быть отмечена как приятная."}
         )
+
+
+def validate_pleasant_habit(attrs):
+    """Валидатор - у приятной привычки не может быть вознаграждения или связанной привычки"""
+
+    is_pleasant_habit = attrs.get("is_pleasant_habit")
+    related_habit = attrs.get("related_habit")
+    award = attrs.get("award")
+    if is_pleasant_habit and (related_habit or award):
+        raise serializers.ValidationError(
+            {"У приятной привычки не может быть вознаграждения или связанной привычки"}
+        )
+
