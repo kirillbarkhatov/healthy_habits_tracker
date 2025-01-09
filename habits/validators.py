@@ -25,6 +25,13 @@ def validate_execution_time(value):
         raise serializers.ValidationError("Время выполнения должно быть не больше 120 секунд")
 
 
+def validate_periodicity(value):
+    """Валидатор периодичности"""
+
+    if value not in range(1, 8):
+        raise serializers.ValidationError("Периодичность должна быть указана от 1 до 7 дней")
+
+
 def validate_related_habit(attrs, field_name='related_habit'):
     """Валидатор - в связанные привычки могут попадать только привычки с признаком приятной привычки"""
 
