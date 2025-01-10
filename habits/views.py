@@ -1,3 +1,4 @@
+from django.contrib.admin import action
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
@@ -5,6 +6,7 @@ from users.permissions import IsOwner
 from .models import Habit
 from .paginators import FiveItemsPaginator
 from .serializers import HabitSerializer
+from .services import send_telegram_message
 
 
 class HabitCreateAPIView(generics.CreateAPIView):
@@ -39,6 +41,13 @@ class HabitRetrieveAPIView(generics.RetrieveAPIView):
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        response = super().finalize_response(request, response, *args, **kwargs)
+        print(response.data.get("action"))
+        print(request.user.tg_chat_id)
+        send_telegram_message(request.user.tg_chat_id, response.data.get("action"))
+        return response
 
 
 class HabitListAPIView(generics.ListAPIView):

@@ -16,6 +16,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+
 load_dotenv(override=True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -171,3 +172,6 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 #         ),  # Расписание выполнения задачи (например, каждые 10 минут)
 #     },
 # }
+
+# Настройки телеграм
+BOT_TOKEN = os.getenv("BOT_TOKEN")
