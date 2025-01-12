@@ -39,9 +39,7 @@ class UserCommonSerializer(ModelSerializer):
     def create(self, validated_data):
         # Хешируем пароль с использованием set_password
         password = validated_data.pop("password", None)
-        user = User(
-            email=validated_data['email']
-        )
+        user = User(email=validated_data["email"])
         user.set_password(password)
         user.save()
         return user

@@ -10,7 +10,7 @@ def validate_award_and_related_habit(attrs, fields):
     :raises ValidationError: если более одного поля заполнено
     """
     # Считаем количество заполненных полей
-    filled_fields = [field for field in fields if attrs.get(field) not in (None, '')]
+    filled_fields = [field for field in fields if attrs.get(field) not in (None, "")]
 
     if len(filled_fields) > 1:
         raise serializers.ValidationError(
@@ -22,17 +22,21 @@ def validate_execution_time(value):
     """Валидатор времени выполнения"""
 
     if value not in range(121):
-        raise serializers.ValidationError("Время выполнения должно быть не больше 120 секунд")
+        raise serializers.ValidationError(
+            "Время выполнения должно быть не больше 120 секунд"
+        )
 
 
 def validate_periodicity(value):
     """Валидатор периодичности"""
 
     if value not in range(1, 8):
-        raise serializers.ValidationError("Периодичность должна быть указана от 1 до 7 дней")
+        raise serializers.ValidationError(
+            "Периодичность должна быть указана от 1 до 7 дней"
+        )
 
 
-def validate_related_habit(attrs, field_name='related_habit'):
+def validate_related_habit(attrs, field_name="related_habit"):
     """Валидатор - в связанные привычки могут попадать только привычки с признаком приятной привычки"""
 
     related_habit = attrs.get(field_name)
@@ -52,4 +56,3 @@ def validate_pleasant_habit(attrs):
         raise serializers.ValidationError(
             {"У приятной привычки не может быть вознаграждения или связанной привычки"}
         )
-

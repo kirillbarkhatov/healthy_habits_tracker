@@ -1,9 +1,11 @@
-from celery import shared_task
-from .services import send_telegram_message
-from .models import Habit
-from django_celery_beat.models import ClockedSchedule, PeriodicTask
 import datetime
 import json
+
+from celery import shared_task
+from django_celery_beat.models import ClockedSchedule, PeriodicTask
+
+from .models import Habit
+from .services import send_telegram_message
 
 
 @shared_task
@@ -33,7 +35,7 @@ def send_habit_reminder(habit_id):
         PeriodicTask.objects.create(
             clocked=clocked_schedule,
             name=f"Habit reminder for habit {habit.pk} - {next_execution}",
-            task='habits.tasks.send_habit_reminder',
+            task="habits.tasks.send_habit_reminder",
             args=json.dumps([habit.pk]),
             one_off=True,
         )
