@@ -36,7 +36,7 @@ def schedule_habit_reminder(sender, instance, created, **kwargs):
     PeriodicTask.objects.create(
         clocked=clocked_schedule,
         name=task_name,
-        task='your_app.tasks.send_habit_reminder',
+        task='habits.tasks.send_habit_reminder',
         args=json.dumps([instance.pk]),
         one_off=True,  # Указываем, что задача выполняется один раз
     )
