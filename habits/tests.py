@@ -51,3 +51,35 @@ class HabitTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(data, result)
+
+    def test_habit_retrieve(self):
+        url = reverse("habits:habit_retrieve", args=(self.habit.pk,))
+        response = self.client.get(url)
+        data = response.json()
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(data.get("action"), self.habit.action)
+
+    def test_habit_create(self):
+        url = reverse("habits:habit_create")
+
+        data = {
+                    "time": "12:01:00",
+                    "action": "Приятная привычка",
+                    "is_pleasant_habit": True,
+                    "user": self.user.pk
+                }
+
+        response = self.client.post(url, data)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Habit.objects.all().count(), 2)
+
+    def test_habit_update(self):
+        url = reverse("habits:habit_update", args=(self.habit.pk,))
+        data = {"related_habit": "2"}
+        response = self.client.patch(url, data)
+        data = response.json()
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(data.get("related_habit"), self.habit.related_habit)
