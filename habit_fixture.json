@@ -1,0 +1,306 @@
+[
+{
+    "model": "habits.habit",
+    "pk": 1,
+    "fields": {
+        "user": 2,
+        "location": "Где угодно",
+        "time": "12:00:00",
+        "action": "Встать",
+        "is_pleasant_habit": false,
+        "related_habit": null,
+        "periodicity": 1,
+        "award": null,
+        "execution_time": 0,
+        "is_public": false
+    }
+},
+{
+    "model": "habits.habit",
+    "pk": 2,
+    "fields": {
+        "user": 2,
+        "location": "Где угодно",
+        "time": "12:01:00",
+        "action": "Сесть",
+        "is_pleasant_habit": false,
+        "related_habit": null,
+        "periodicity": 1,
+        "award": null,
+        "execution_time": 0,
+        "is_public": false
+    }
+},
+{
+    "model": "habits.habit",
+    "pk": 3,
+    "fields": {
+        "user": 2,
+        "location": "Где угодно",
+        "time": "12:03:00",
+        "action": "Лечь",
+        "is_pleasant_habit": false,
+        "related_habit": null,
+        "periodicity": 1,
+        "award": null,
+        "execution_time": 0,
+        "is_public": false
+    }
+},
+{
+    "model": "habits.habit",
+    "pk": 4,
+    "fields": {
+        "user": 2,
+        "location": "Где угодно",
+        "time": "12:04:00",
+        "action": "Спать",
+        "is_pleasant_habit": false,
+        "related_habit": null,
+        "periodicity": 1,
+        "award": "Пряник",
+        "execution_time": 0,
+        "is_public": false
+    }
+},
+{
+    "model": "habits.habit",
+    "pk": 5,
+    "fields": {
+        "user": 2,
+        "location": "Где угодно",
+        "time": "12:04:00",
+        "action": "Спать",
+        "is_pleasant_habit": false,
+        "related_habit": 1,
+        "periodicity": 1,
+        "award": null,
+        "execution_time": 0,
+        "is_public": false
+    }
+},
+{
+    "model": "habits.habit",
+    "pk": 6,
+    "fields": {
+        "user": 2,
+        "location": "Где угодно",
+        "time": "12:05:00",
+        "action": "Орать",
+        "is_pleasant_habit": false,
+        "related_habit": null,
+        "periodicity": 1,
+        "award": null,
+        "execution_time": 100,
+        "is_public": false
+    }
+},
+{
+    "model": "habits.habit",
+    "pk": 7,
+    "fields": {
+        "user": 2,
+        "location": "Где угодно",
+        "time": "12:06:00",
+        "action": "Жрать булки!",
+        "is_pleasant_habit": true,
+        "related_habit": null,
+        "periodicity": 1,
+        "award": null,
+        "execution_time": 1,
+        "is_public": false
+    }
+},
+{
+    "model": "habits.habit",
+    "pk": 8,
+    "fields": {
+        "user": 2,
+        "location": "Где угодно",
+        "time": "12:06:00",
+        "action": "Какать",
+        "is_pleasant_habit": false,
+        "related_habit": 7,
+        "periodicity": 1,
+        "award": null,
+        "execution_time": 1,
+        "is_public": false
+    }
+},
+{
+    "model": "habits.habit",
+    "pk": 9,
+    "fields": {
+        "user": 2,
+        "location": "Где угодно",
+        "time": "12:07:00",
+        "action": "Мыть руки",
+        "is_pleasant_habit": false,
+        "related_habit": null,
+        "periodicity": 1,
+        "award": null,
+        "execution_time": 0,
+        "is_public": false
+    }
+},
+{
+    "model": "habits.habit",
+    "pk": 10,
+    "fields": {
+        "user": 2,
+        "location": "Где угодно",
+        "time": "12:07:00",
+        "action": "Взять с полки пирожок",
+        "is_pleasant_habit": true,
+        "related_habit": null,
+        "periodicity": 1,
+        "award": null,
+        "execution_time": 0,
+        "is_public": false
+    }
+},
+{
+    "model": "habits.habit",
+    "pk": 11,
+    "fields": {
+        "user": 2,
+        "location": "Где угодно",
+        "time": "12:07:00",
+        "action": "Упал-отжался",
+        "is_pleasant_habit": false,
+        "related_habit": null,
+        "periodicity": 2,
+        "award": null,
+        "execution_time": 0,
+        "is_public": false
+    }
+},
+{
+    "model": "habits.habit",
+    "pk": 12,
+    "fields": {
+        "user": 2,
+        "location": "Где угодно",
+        "time": "12:07:00",
+        "action": "Упал-отжался 3 раза",
+        "is_pleasant_habit": false,
+        "related_habit": null,
+        "periodicity": 1,
+        "award": null,
+        "execution_time": 0,
+        "is_public": false
+    }
+},
+{
+    "model": "habits.habit",
+    "pk": 13,
+    "fields": {
+        "user": 3,
+        "location": "Где угодно",
+        "time": "12:07:00",
+        "action": "Упал-отжался 3 раза",
+        "is_pleasant_habit": false,
+        "related_habit": null,
+        "periodicity": 1,
+        "award": null,
+        "execution_time": 0,
+        "is_public": false
+    }
+},
+{
+    "model": "habits.habit",
+    "pk": 14,
+    "fields": {
+        "user": 2,
+        "location": "Где угодно",
+        "time": "12:10:00",
+        "action": "Упал-отжался 100500 раз",
+        "is_pleasant_habit": false,
+        "related_habit": null,
+        "periodicity": 1,
+        "award": null,
+        "execution_time": 0,
+        "is_public": true
+    }
+},
+{
+    "model": "habits.habit",
+    "pk": 18,
+    "fields": {
+        "user": 2,
+        "location": "Где угодно",
+        "time": "22:32:00",
+        "action": "Упал-отжался 100500 раз ещё раз",
+        "is_pleasant_habit": false,
+        "related_habit": null,
+        "periodicity": 1,
+        "award": null,
+        "execution_time": 0,
+        "is_public": false
+    }
+},
+{
+    "model": "habits.habit",
+    "pk": 19,
+    "fields": {
+        "user": 2,
+        "location": "Где угодно",
+        "time": "22:35:00",
+        "action": "Упал-отжался 100500 раз ещё раз",
+        "is_pleasant_habit": false,
+        "related_habit": null,
+        "periodicity": 1,
+        "award": null,
+        "execution_time": 0,
+        "is_public": false
+    }
+},
+{
+    "model": "habits.habit",
+    "pk": 20,
+    "fields": {
+        "user": 2,
+        "location": "Где угодно",
+        "time": "22:37:00",
+        "action": "Упал-отжался 100500 раз ещё раз",
+        "is_pleasant_habit": false,
+        "related_habit": null,
+        "periodicity": 1,
+        "award": null,
+        "execution_time": 0,
+        "is_public": false
+    }
+},
+{
+    "model": "habits.habit",
+    "pk": 21,
+    "fields": {
+        "user": 2,
+        "location": "Где угодно",
+        "time": "22:39:00",
+        "action": "Упал-отжался 100500 раз ещё раз",
+        "is_pleasant_habit": false,
+        "related_habit": null,
+        "periodicity": 1,
+        "award": null,
+        "execution_time": 0,
+        "is_public": false
+    }
+},
+{
+    "model": "habits.habit",
+    "pk": 22,
+    "fields": {
+        "user": 2,
+        "location": "Где угодно",
+        "time": "16:00:00",
+        "action": "Упал-отжался 100500 раз ещё раз, да-да, ещё раз",
+        "is_pleasant_habit": false,
+        "related_habit": null,
+        "periodicity": 1,
+        "award": null,
+        "execution_time": 0,
+        "is_public": false
+    }
+}
+]
