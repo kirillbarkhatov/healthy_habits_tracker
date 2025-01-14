@@ -8,7 +8,7 @@ from .views import UserViewSet
 app_name = UsersConfig.name
 
 router_user = SimpleRouter()
-router_user.register(r"user", UserViewSet)
+router_user.register(r"user", UserViewSet, basename="user")
 
 urlpatterns = router_user.urls + [
     path("login/", TokenObtainPairView.as_view(), name="login"),
