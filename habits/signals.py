@@ -1,8 +1,9 @@
 import json
+
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
-from django_celery_beat.models import ClockedSchedule, PeriodicTask
 from django.utils import timezone  # Используем timezone для работы с временем
+from django_celery_beat.models import ClockedSchedule, PeriodicTask
 
 from .models import Habit
 
@@ -21,12 +22,16 @@ def schedule_habit_reminder(sender, instance, created, **kwargs):
             pass
 
     # Рассчитываем время следующего выполнения
-    now = timezone.now()  # Используем timezone.now(), чтобы получить осведомленное время
+    now = (
+        timezone.now()
+    )  # Используем timezone.now(), чтобы получить осведомленное время
     habit_time = timezone.datetime.combine(now.date(), instance.time)
 
     # Преобразуем habit_time в осведомленное время, если оно наивное
     if timezone.is_naive(habit_time):
-        habit_time = timezone.make_aware(habit_time)  # Преобразуем в осведомленное время
+        habit_time = timezone.make_aware(
+            habit_time
+        )  # Преобразуем в осведомленное время
 
     # Если время уже прошло, планируем на следующий день
     if habit_time < now:
@@ -56,7 +61,6 @@ def delete_habit_reminders(sender, instance, **kwargs):
         name__startswith=f"Habit reminder for habit {instance.pk}"
     )
     tasks.delete()
-
 
 
 # import datetime

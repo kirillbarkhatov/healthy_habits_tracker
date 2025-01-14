@@ -1,11 +1,9 @@
-from datetime import time
-
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from habits.models import Habit
 from users.models import User
+
 
 class UserTestCase(APITestCase):
     def setUp(self):
@@ -17,16 +15,12 @@ class UserTestCase(APITestCase):
 
         self.client.force_authenticate(user=self.user)
 
-
     def test_user_list(self):
         url = reverse("users:user-list")
         response = self.client.get(url)
         data = response.json()
         result = [
-            {
-                "id": self.user.pk,
-                "email": "test1@test1.ru"
-            },
+            {"id": self.user.pk, "email": "test1@test1.ru"},
         ]
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -43,10 +37,7 @@ class UserTestCase(APITestCase):
     def test_user_create(self):
         url = reverse("users:user-list")
 
-        data = {
-                    "email": "test2@test2.ru",
-                    "password": "123qwe456rty"
-                }
+        data = {"email": "test2@test2.ru", "password": "123qwe456rty"}
 
         response = self.client.post(url, data)
 

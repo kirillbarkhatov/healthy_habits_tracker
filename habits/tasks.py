@@ -1,7 +1,8 @@
 import json
+
 from celery import shared_task
-from django_celery_beat.models import ClockedSchedule, PeriodicTask
 from django.utils import timezone  # Используем timezone для работы с временем
+from django_celery_beat.models import ClockedSchedule, PeriodicTask
 
 from .models import Habit
 from .services import send_telegram_message
@@ -29,7 +30,9 @@ def send_habit_reminder(habit_id):
 
         # Преобразуем next_execution в осведомленное время, если оно наивное
         if timezone.is_naive(next_execution):
-            next_execution = timezone.make_aware(next_execution)  # Преобразуем в осведомленное время
+            next_execution = timezone.make_aware(
+                next_execution
+            )  # Преобразуем в осведомленное время
 
         # Если время уже прошло, планируем задачу на следующий день
         if next_execution < now:
@@ -40,7 +43,9 @@ def send_habit_reminder(habit_id):
         #     next_execution = timezone.make_aware(next_execution)  # Преобразуем в осведомленное время
 
         # Создание или нахождение расписания
-        clocked_schedule, _ = ClockedSchedule.objects.get_or_create(clocked_time=next_execution)
+        clocked_schedule, _ = ClockedSchedule.objects.get_or_create(
+            clocked_time=next_execution
+        )
 
         # Создание задачи с расписанием
         PeriodicTask.objects.create(
@@ -53,7 +58,6 @@ def send_habit_reminder(habit_id):
 
     except Habit.DoesNotExist:
         pass
-
 
 
 # import datetime

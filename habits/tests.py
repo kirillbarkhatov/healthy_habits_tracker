@@ -1,19 +1,18 @@
-from datetime import time
 import datetime
 import json
-
+from datetime import time
 from unittest.mock import patch
 
 from django.test import TestCase
-from django_celery_beat.models import ClockedSchedule, PeriodicTask
-
 from django.urls import reverse
+from django_celery_beat.models import ClockedSchedule, PeriodicTask
 from rest_framework import status
 from rest_framework.test import APITestCase
 
 from habits.models import Habit
-from users.models import User
 from habits.tasks import send_habit_reminder
+from users.models import User
+
 
 class HabitTestCase(APITestCase):
     def setUp(self):
@@ -24,13 +23,10 @@ class HabitTestCase(APITestCase):
         )
 
         self.habit = Habit.objects.create(
-            time=time(12, 0),
-            action="Полезная привычка",
-            user=self.user
+            time=time(12, 0), action="Полезная привычка", user=self.user
         )
 
         self.client.force_authenticate(user=self.user)
-
 
     def test_habit_list(self):
         url = reverse("habits:habit_list")
@@ -52,9 +48,9 @@ class HabitTestCase(APITestCase):
                     "award": None,
                     "is_public": False,
                     "user": self.user.pk,
-                    "related_habit": None
+                    "related_habit": None,
                 }
-            ]
+            ],
         }
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -72,11 +68,11 @@ class HabitTestCase(APITestCase):
         url = reverse("habits:habit_create")
 
         data = {
-                    "time": "12:01:00",
-                    "action": "Приятная привычка",
-                    "is_pleasant_habit": True,
-                    "user": self.user.pk
-                }
+            "time": "12:01:00",
+            "action": "Приятная привычка",
+            "is_pleasant_habit": True,
+            "user": self.user.pk,
+        }
 
         response = self.client.post(url, data)
 
@@ -90,7 +86,7 @@ class HabitTestCase(APITestCase):
             "time": "12:01:00",
             "action": "Приятная привычка",
             "is_pleasant_habit": True,
-            "user": self.user.pk
+            "user": self.user.pk,
         }
 
         self.client.post(url, data)
@@ -102,7 +98,9 @@ class HabitTestCase(APITestCase):
         data = response.json()
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(data.get("related_habit"), Habit.objects.get(action="Приятная привычка").pk)
+        self.assertEqual(
+            data.get("related_habit"), Habit.objects.get(action="Приятная привычка").pk
+        )
 
     def test_lesson_delete(self):
         url = reverse("habits:habit_delete", args=(self.habit.pk,))
@@ -119,16 +117,13 @@ def test_send_habit_reminder_with_mock(self, mock_send_message):
     # Проверяем, что send_telegram_message вызван
     mock_send_message.assert_called_once_with(
         "123456789",
-        f"Напоминание: Прогулка в Парк в 10:00.\nНе забудьте про награду: Мороженое!"
+        "Напоминание: Прогулка в Парк в 10:00.\nНе забудьте про награду: Мороженое!",
     )
 
 
 class SendHabitReminderTaskTest(TestCase):
     def setUp(self):
-        self.user = User.objects.create(
-            email="test@test.com",
-            tg_chat_id="123456789"
-        )
+        self.user = User.objects.create(email="test@test.com", tg_chat_id="123456789")
 
         self.habit = Habit.objects.create(
             user=self.user,
@@ -152,7 +147,9 @@ class SendHabitReminderTaskTest(TestCase):
             self.habit.time,
         )
 
-        clocked_schedule = ClockedSchedule.objects.filter(clocked_time=next_execution).first()
+        clocked_schedule = ClockedSchedule.objects.filter(
+            clocked_time=next_execution
+        ).first()
         self.assertIsNotNone(clocked_schedule)
 
         periodic_task = PeriodicTask.objects.filter(
@@ -163,7 +160,9 @@ class SendHabitReminderTaskTest(TestCase):
         ).first()
 
         self.assertIsNotNone(periodic_task)
-        self.assertEqual(periodic_task.name, f"Habit reminder for habit {self.habit.pk}")
+        self.assertEqual(
+            periodic_task.name, f"Habit reminder for habit {self.habit.pk}"
+        )
 
     def test_habit_does_not_exist(self):
         # Очистка всех объектов, если необходимо
