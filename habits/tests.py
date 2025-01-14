@@ -1,4 +1,11 @@
 from datetime import time
+import datetime
+import json
+
+from unittest.mock import patch
+
+from django.test import TestCase
+from django_celery_beat.models import ClockedSchedule, PeriodicTask
 
 from django.urls import reverse
 from rest_framework import status
@@ -6,6 +13,7 @@ from rest_framework.test import APITestCase
 
 from habits.models import Habit
 from users.models import User
+from habits.tasks import send_habit_reminder
 
 class HabitTestCase(APITestCase):
     def setUp(self):
@@ -102,3 +110,67 @@ class HabitTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Habit.objects.all().count(), 0)
+
+
+@patch("habits.tasks.send_telegram_message")
+def test_send_habit_reminder_with_mock(self, mock_send_message):
+    send_habit_reminder(self.habit.pk)
+
+    # Проверяем, что send_telegram_message вызван
+    mock_send_message.assert_called_once_with(
+        "123456789",
+        f"Напоминание: Прогулка в Парк в 10:00.\nНе забудьте про награду: Мороженое!"
+    )
+
+
+class SendHabitReminderTaskTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create(
+            email="test@test.com",
+            tg_chat_id="123456789"
+        )
+
+        self.habit = Habit.objects.create(
+            user=self.user,
+            action="Прогулка",
+            location="Парк",
+            time=datetime.time(10, 0),
+            award="Мороженое",
+            periodicity=1,
+        )
+
+    def test_send_habit_reminder(self):
+        # Выполняем задачу
+        send_habit_reminder(self.habit.pk)
+
+        # Проверяем, что сообщение было отправлено (можно замокать send_telegram_message)
+        # В реальных тестах вы можете использовать mock для проверки вызова функции.
+        # Для примера проверим создание следующей задачи:
+
+        next_execution = datetime.datetime.combine(
+            datetime.date.today() + datetime.timedelta(days=self.habit.periodicity),
+            self.habit.time,
+        )
+
+        clocked_schedule = ClockedSchedule.objects.filter(clocked_time=next_execution).first()
+        self.assertIsNotNone(clocked_schedule)
+
+        periodic_task = PeriodicTask.objects.filter(
+            clocked=clocked_schedule,
+            task="habits.tasks.send_habit_reminder",
+            args=json.dumps([self.habit.pk]),
+            one_off=True,
+        ).first()
+
+        self.assertIsNotNone(periodic_task)
+        self.assertEqual(periodic_task.name, f"Habit reminder for habit {self.habit.pk}")
+
+    def test_habit_does_not_exist(self):
+        # Очистка всех объектов, если необходимо
+        ClockedSchedule.objects.all().delete()
+        PeriodicTask.objects.all().delete()
+        # Тестируем случай, когда habit не существует
+        send_habit_reminder(999)  # Несуществующий ID
+        # Никакие задачи не должны быть созданы
+        self.assertFalse(ClockedSchedule.objects.exists())
+        self.assertFalse(PeriodicTask.objects.exists())
