@@ -32,9 +32,9 @@ def schedule_habit_reminder(sender, instance, created, **kwargs):
     if habit_time < now:
         habit_time += timezone.timedelta(days=instance.periodicity)
 
-    # Преобразуем habit_time в осведомленное время, если оно наивное
-    if timezone.is_naive(habit_time):
-        habit_time = timezone.make_aware(habit_time)  # Преобразуем в осведомленное время
+    # # Преобразуем habit_time в осведомленное время, если оно наивное
+    # if timezone.is_naive(habit_time):
+    #     habit_time = timezone.make_aware(habit_time)  # Преобразуем в осведомленное время
 
     # Создаем или находим расписание
     clocked_schedule, _ = ClockedSchedule.objects.get_or_create(clocked_time=habit_time)

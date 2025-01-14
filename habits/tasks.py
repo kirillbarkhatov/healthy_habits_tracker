@@ -27,7 +27,7 @@ def send_habit_reminder(habit_id):
             now.date() + timezone.timedelta(days=habit.periodicity), habit.time
         )
 
-        # Преобразуем habit_time в осведомленное время, если оно наивное
+        # Преобразуем next_execution в осведомленное время, если оно наивное
         if timezone.is_naive(next_execution):
             next_execution = timezone.make_aware(next_execution)  # Преобразуем в осведомленное время
 
@@ -35,9 +35,9 @@ def send_habit_reminder(habit_id):
         if next_execution < now:
             next_execution += timezone.timedelta(days=habit.periodicity)
 
-        # Преобразуем next_execution в осведомленное время, если оно наивное
-        if timezone.is_naive(next_execution):
-            next_execution = timezone.make_aware(next_execution)  # Преобразуем в осведомленное время
+        # # Преобразуем next_execution в осведомленное время, если оно наивное
+        # if timezone.is_naive(next_execution):
+        #     next_execution = timezone.make_aware(next_execution)  # Преобразуем в осведомленное время
 
         # Создание или нахождение расписания
         clocked_schedule, _ = ClockedSchedule.objects.get_or_create(clocked_time=next_execution)
