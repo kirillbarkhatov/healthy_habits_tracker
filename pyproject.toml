@@ -18,12 +18,18 @@ drf-yasg = "^1.21.8"
 redis = "^5.2.1"
 celery = "^5.4.0"
 django-celery-beat = "^2.7.0"
+requests = "^2.32.3"
+django-cors-headers = "^4.6.0"
 
 
 [tool.poetry.group.lint.dependencies]
 black = "^24.10.0"
 isort = "^5.13.2"
 flake8 = "^7.1.1"
+
+
+[tool.poetry.group.dev.dependencies]
+coverage = "^7.6.10"
 
 [build-system]
 requires = ["poetry-core"]
